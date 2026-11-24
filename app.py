@@ -23,7 +23,7 @@ from reportlab.pdfgen import canvas
 # =====================================================
 
 BASE_DIR = Path(__file__).resolve().parent
-PI_CAMERA_URL = "http://10.34.66.20:8081"
+PI_CAMERA_URL = "https://occupational-minolta-rights-rod.trycloudflare.com"
 MODEL_DIR = BASE_DIR / "models"
 DB_PATH = BASE_DIR / "analysis_history.db"
 
