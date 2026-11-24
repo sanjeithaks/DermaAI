@@ -8,4 +8,12 @@ __pycache__/
 .streamlit/secrets.toml
 analysis_history.db
 *.db
+captured_images/
 .DS_Store
+venv_tf_test/
+app.py.backup
+app.py.camera_backup
+inspect_models.py
+.env
+__pycache__/
+*.pyc

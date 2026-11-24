@@ -93,6 +93,33 @@ streamlit run app.py
 ```
 Open the URL Streamlit prints (usually `http://localhost:8501`), upload a lesion image, and see the prediction live.
 
+### Raspberry Pi image receiver
+
+Start the FastAPI image receiver on the Windows computer:
+
+```powershell
+python -m pip install -r requirements.txt
+python -m uvicorn camera_receiver:app --host 0.0.0.0 --port 8000
+```
+
+The receiver accepts JPEG and PNG multipart uploads at `POST /upload-image`,
+using the form field name `file`. It saves each validated upload in
+`captured_images/`, assigns an image ID and UTC timestamp, and limits uploads
+to 10 MiB by default. The response includes `success`, `image_id`, `timestamp`,
+`filename`, and `upload_status`. `GET /health` reports whether the API is
+running. Set `DERMAAI_MAX_UPLOAD_BYTES` to change the limit or
+`DERMAAI_CAPTURE_DIR` to change the storage directory. The receiver can be
+reached from a Raspberry Pi on the same network at
+`http://<windows-computer-ip>:8000/upload-image`; allow the chosen port through
+Windows Firewall on the private network. Keep the receiver on a trusted LAN;
+this endpoint does not provide authentication or HTTPS.
+
+Run the receiver tests with:
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
 ## How It Works
 
 **1. Preprocessing & class imbalance** — HAM10000 is heavily skewed (melanocytic nevi make up ~67% of images). `data_preprocessing.py` computes inverse-frequency class weights, applies augmentation (flips, rotations, brightness/contrast jitter), and splits the data by `lesion_id` (grouped + stratified) so the same lesion never leaks across train/val/test.

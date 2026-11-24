@@ -9,3 +9,7 @@ numpy
 opencv-python-headless
 pillow
 reportlab
+fastapi
+uvicorn
+python-multipart
+httpx  # Required by FastAPI's TestClient in the receiver tests.
